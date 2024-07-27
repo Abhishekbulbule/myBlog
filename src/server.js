@@ -8,8 +8,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static('./dist'));
 
-const credentials = JSON.parse(fs.readFileSync("./credentials.json"));
+const credentials = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 admin.initializeApp({ credential: admin.credential.cert(credentials) });
+
 const client = new MongoClient(process.env.DATABASE_URL);
 await client.connect();
 const db = client.db("react-blog-db");
