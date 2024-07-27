@@ -84,7 +84,7 @@ app.post("/api/articles/:name/comments", async (req, res) => {
   }
   res.json(article);
 });
-
-app.listen(8000, () => {
-  console.log("Server running at port 8000");
+const port = process.env.PORT;
+app.listen(port, () => {
+  console.log(`Server running at port ${port}`);
 });
