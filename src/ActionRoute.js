@@ -2,7 +2,6 @@ import router from "./Routes.js";
 import ArticleModel from './Model.js'
 
 const time = (req, res, next)=>{
-    console.log(Date.now());
     next();
 }
 router.get('/articles/all',time,async(req,res)=>{

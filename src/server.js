@@ -17,10 +17,11 @@ const db = client.db("react-blog-db");
 
 
 app.use(async (req, res, next) => {
-  const {authToken} = req.headers;
-  if (authToken) {
+  const {authtoken} = req.headers;
+  
+  if (authtoken) {
     try {
-      req.user = await admin.auth().verifyIdToken(authToken);
+      req.user = await admin.auth().verifyIdToken(authtoken);
     } catch (error) {
       return res.status(404).json(error.message);
     }
@@ -31,8 +32,9 @@ app.use(async (req, res, next) => {
 
 app.get("/api/articles/:name", async (req, res) => {
   const { name } = req.params;
-  const { uid } = req.user;
-  const article = await db.collection("articles").findOne({ name });
+  const {uid} = req.user;
+  
+  let article = await db.collection("articles").findOne({ name });
   if (article ) {
     const upvoteIds = article.upvoteIds || [];
     article.canUpvote = uid && !upvoteIds.includes(uid);
@@ -53,6 +55,7 @@ app.use((req, res, next) => {
 app.put("/api/articles/:name/upvotes", async (req, res) => {
   const { name } = req.params;
   const { uid } = req.user;
+  
   const article = await db.collection("articles").findOne({ name });
   if (article) {
     const upvoteIds = article.upvoteIds || [];
